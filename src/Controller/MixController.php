@@ -19,6 +19,8 @@ class MixController extends AbstractController
         $mix->setGenre('pop');
         $mix->setTrackCount(rand(5, 20));
         $mix->setVotes(rand(-50, 50));
+        $genres = ['pop','rock'];
+        $mix->setGenre($genres[array_rand(($genres))]);
         $entityManager->persist($mix);
         $entityManager->flush();
         return new Response(sprintf(
