@@ -30,10 +30,9 @@ class VinylController extends AbstractController
     }
 
     #[Route('/browse/{slug}', name: 'app_browse')]
-    public function browse(EntityManagerInterface $entityManager, string $slug = null): Response    {
+    public function browse(VinylMixRepository $mixRepository, string $slug = null): Response{
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $mixRepository = $entityManager->getRepository(VinylMix::class);
-        $mixes = $mixRepository->findBy([], ['votes' => 'DESC']);        
+        $mixes = $mixRepository->findAllOrderedByVotes();
         return $this->render('vinyl/browse.html.twig', [
             'genre' => $genre,
             'mixes' => $mixes,
